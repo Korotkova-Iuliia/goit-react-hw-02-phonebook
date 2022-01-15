@@ -1,44 +1,44 @@
 import React, { Component } from "react";
-import { Formik, Form, Field, ErrorMessage, connect, getIn } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
+import { nanoid } from "nanoid";
+
 import styled from "styled-components";
 import { GlobalStyle } from "./GlobalStyle";
 import "./App.css";
-
-const validate = (props) => {
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .min(2, "Too Short!")
-      .max(5, "Too Long!")
-      .required("Required"),
-    number: yup.number().required().positive().integer(),
-    createdOn: yup.date().default(function () {
-      return new Date();
-    }),
-  });
-  const errors = {};
-  if (!schema.name) {
-    errors.name = "Required";
-  } else if (
-    !/^[a-zA-Zа-яА-Я]+((`[' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$`/i.test(
-      schema.name
+// model.id = nanoid();
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .matches(
+      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+      `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz
+ de Castelmore d'Artagnan`
     )
-  ) {
-    errors.name = `Name may contain only letters, apostrophe, dash and
-                      spaces. For example Adrian, Jacob Mercer, Charles de Batz
-                      de Castelmore d'Artagnan`;
-  }
-  return errors;
+    .min(2, "Too Short!")
+    .max(30, "Too Long!")
+    .required("Required"),
+  number: yup
+    .string()
+    .matches(
+      /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/,
+      `input phone number in format +380000000000`
+    )
+    .min(13, "Too Short!")
+    .max(13, "Too Long!")
+    .required(),
+});
+const ErrorText = styled.p`
+  color: red;
+`;
+const FormError = ({ name }) => {
+  return (
+    <ErrorMessage
+      name={name}
+      render={(message) => <ErrorText>{message}</ErrorText>}
+    />
+  );
 };
-// ErrorMessage = (props) => {
-//   // All FormikProps available on props.formik!
-// const error = getIn(props.formik.errors, props.name);
-// const touch = getIn(props.formik.touched, props.name);
-// return touch && error ? error : null;
-// };
-
-//  export default connect(ErrorMessage);
 class App extends Component {
   state = {
     contacts: [],
@@ -51,8 +51,6 @@ class App extends Component {
     console.log(values);
     resetForm();
   };
-  message = `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz
- de Castelmore d'Artagnan`;
   render() {
     return (
       <div>
@@ -61,26 +59,23 @@ class App extends Component {
         <div>ContactForm</div>
         <Formik
           initialValues={{ contacts: [], name: "", number: "" }}
-          validationSchema={validate}
+          validationSchema={schema}
           onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting, errors, touched }) => (
+          {({ isSubmitting }) => (
             <Form autoComplete="off">
               <label htmlFor="name">Name</label>
-              <Field type="text" name="name" placeholder="Input name" />
-              {errors.name && touched.name ? <div>{errors.name}</div> : null}
-              <ErrorMessage
+              <Field
+                key={nanoid()}
+                type="text"
                 name="name"
-                component="div"
-                render={(message) => <div>{message}</div>}
+                placeholder="Input name"
               />
+              <FormError name="name" />
               <div>
                 <label htmlFor="number">Number</label>
-                <Field type="text" name="number" placeholder="358-00" />
-                <ErrorMessage
-                  name="number"
-                  render={(message) => <p>{message}</p>}
-                />
+                <Field type="text" name="number" placeholder="+380503589900" />
+                <FormError name="number" />
               </div>
               <button type="submit" disabled={isSubmitting}>
                 Submit
