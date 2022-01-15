@@ -5,32 +5,32 @@ import styled from "styled-components";
 import { GlobalStyle } from "./GlobalStyle";
 import "./App.css";
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(2, "Too Short!")
-    .max(5, "Too Long!")
-    .required("Required"),
-  number: yup.number().required().positive().integer(),
-  createdOn: yup.date().default(function () {
-    return new Date();
-  }),
-});
-//  validate={(schema) => {
-//             const errors = {};
-//             if (!schema.name) {
-//               errors.name = 'Required';
-//             } else if (
-//               !/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i.test(
-//                 schema.name
-//               )
-//             ) {
-//               errors.name = `Name may contain only letters, apostrophe, dash and
-//                       spaces. For example Adrian, Jacob Mercer, Charles de Batz
-//                       de Castelmore d'Artagnan`;
-//             }
-//             return errors;
-//           }}
+const validate = (props) => {
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .min(2, "Too Short!")
+      .max(5, "Too Long!")
+      .required("Required"),
+    number: yup.number().required().positive().integer(),
+    createdOn: yup.date().default(function () {
+      return new Date();
+    }),
+  });
+  const errors = {};
+  if (!schema.name) {
+    errors.name = "Required";
+  } else if (
+    !/^[a-zA-Zа-яА-Я]+((`[' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$`/i.test(
+      schema.name
+    )
+  ) {
+    errors.name = `Name may contain only letters, apostrophe, dash and
+                      spaces. For example Adrian, Jacob Mercer, Charles de Batz
+                      de Castelmore d'Artagnan`;
+  }
+  return errors;
+};
 // ErrorMessage = (props) => {
 //   // All FormikProps available on props.formik!
 // const error = getIn(props.formik.errors, props.name);
@@ -61,7 +61,7 @@ class App extends Component {
         <div>ContactForm</div>
         <Formik
           initialValues={{ contacts: [], name: "", number: "" }}
-          validationSchema={schema}
+          validationSchema={validate}
           onSubmit={this.handleSubmit}
         >
           {({ isSubmitting, errors, touched }) => (
@@ -69,11 +69,11 @@ class App extends Component {
               <label htmlFor="name">Name</label>
               <Field type="text" name="name" placeholder="Input name" />
               {errors.name && touched.name ? <div>{errors.name}</div> : null}
-              {/* <ErrorMessage
+              <ErrorMessage
                 name="name"
                 component="div"
                 render={(message) => <div>{message}</div>}
-              /> */}
+              />
               <div>
                 <label htmlFor="number">Number</label>
                 <Field type="text" name="number" placeholder="358-00" />
