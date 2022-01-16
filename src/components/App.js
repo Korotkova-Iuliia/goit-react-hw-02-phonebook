@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import styled from "styled-components";
 import { GlobalStyle } from "./GlobalStyle";
 import "./App.css";
-// model.id = nanoid();
+
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -24,8 +24,8 @@ const schema = yup.object().shape({
       /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/,
       `input phone number in format +380000000000`
     )
-    .min(13, "Too Short!")
-    .max(13, "Too Long!")
+    // .min(13, 'Too Short!')
+    // .max(13, 'Too Long!')
     .required(),
 });
 const ErrorText = styled.p`
@@ -39,18 +39,43 @@ const FormError = ({ name }) => {
     />
   );
 };
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: "",
-    name: "",
-    number: "",
-  };
 
+// this.setState({ id: values.name });
+class App extends Component {
+  // model.id = nanoid();
   handleSubmit = (values, { resetForm }) => {
+    // e.preventDefault();
+    const nameId = () => nanoid();
+    const { name, number, contacts } = values;
+    this.setState({
+      contacts,
+      id: nameId(),
+      name,
+      number,
+    });
     console.log(values);
+    console.log(contacts);
+    console.log(name);
+    console.log(number);
+    console.log(nameId());
+    console.log(name);
+
+    // this.setState({ [name]: values.name });
+
     resetForm();
   };
+  handleChange = (e) => {
+    console.log(e);
+    console.log(this.initialValues);
+    console.log(this.values.name);
+    console.log(e.currentTarget);
+    console.log(e.currentTarget.name);
+    console.log(e.currentTarget.value);
+    console.log(e.currentTarget.initialValues);
+
+    // this.setState({ contacts: values.name });
+  };
+
   render() {
     return (
       <div>
@@ -60,21 +85,27 @@ class App extends Component {
         <Formik
           initialValues={{ contacts: [], name: "", number: "" }}
           validationSchema={schema}
+          onChange={this.handleChange}
           onSubmit={this.handleSubmit}
         >
           {({ isSubmitting }) => (
             <Form autoComplete="off">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="nameId">Name</label>
               <Field
-                key={nanoid()}
+                id="nameId"
                 type="text"
                 name="name"
                 placeholder="Input name"
               />
               <FormError name="name" />
               <div>
-                <label htmlFor="number">Number</label>
-                <Field type="text" name="number" placeholder="+380503589900" />
+                <label htmlFor="nameId">Number</label>
+                <Field
+                  id="nameId"
+                  type="text"
+                  name="number"
+                  placeholder="+380503589900"
+                />
                 <FormError name="number" />
               </div>
               <button type="submit" disabled={isSubmitting}>
@@ -92,86 +123,6 @@ class App extends Component {
 }
 
 export default App;
-//  validate={(values) => {
-//             const errors = {};
-//             if (!values.name) {
-//               errors.name = 'Required';
-//             } else if (
-//               !/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i.test(
-//                 values.name
-//               )
-//             ) {
-//               errors.name = `Name may contain only letters, apostrophe, dash and
-//                       spaces. For example Adrian, Jacob Mercer, Charles de Batz
-//                       de Castelmore d'Artagnan`;
-//             }
-//             return errors;
-//           }}
-// <Formik>
-//           <Form>
-//             <div>
-//               <label htmlFor="name">Name</label>
-//               <Field type="text" name="name" placeholder="Input name" />
-//               <ErrorMessage name="name" component="div" />
-//             </div>
-//             <div>
-//               <label htmlFor="number">Number</label>
-//               <Field type="text" name="number" placeholder="358-00" />
-//               <ErrorMessage name="number" component="div" />
-//             </div>
-//             <button type="submit" disabled>
-//               Submit
-//             </button>
-//           </Form>
-//         </Formik>
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
-//  {
-//    /* <input
-//           type="text"
-//           name="name"
-//           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-//           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//           required
-//         /> */
-// }
-//  ????
-//  <Formik
-//    initialValues={{ contacts: [], name: '' }}
-//    validate={(values) => {
-//      const errors = {};
-//      if (!values.name) {
-//        errors.name = 'Required';
-//      } else if (
-//        !/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i.test(
-//          values.name
-//        )
-//      ) {
-//        errors.name = `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan`;
-//      }
-//      return errors;
-//    }}
-//    onSubmit={(values, { setSubmitting }) => {
-//      setTimeout(() => {
-//        alert(JSON.stringify(values, null, 2));
-//        setSubmitting(false);
-//      }, 400);
-//    }}
-//  >
-//    {({ isSubmitting }) => (
-//      <Form>
-//        <Field type="text" name="name" />
-//        <ErrorMessage name="name" component="div" />
-//        <button type="submit" disabled={isSubmitting}>
-//          Submit
-//        </button>
-//      </Form>
-//    )}
-//  </Formik>;
-// {
-//   /* <div>
-//   <h1>Phonebook</h1>
-//   <ContactForm ... />
 
 //   <h2>Contacts</h2>
 //   <Filter ... />
