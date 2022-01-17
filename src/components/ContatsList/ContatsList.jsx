@@ -1,15 +1,16 @@
-import { nanoid } from "nanoid";
 import ContactItem from "../ContactItem/ContactItem";
 const ContactsList = ({ contacts }) => {
-  const createId = () => nanoid();
+  // const createId = () => nanoid();
 
   return (
     <ul>
-      {contacts.map(({ name }) => {
+      {contacts.map(({ id, name, number }) => {
         return (
-          <li key={createId()}>
-            {name}
-            {/* <li key={createId()}>{name}</li> */}
+          <li key={id}>
+            <div>
+              {name}:{number}
+              <button key={id}>Delet</button>
+            </div>
           </li>
         );
       })}
@@ -19,5 +20,25 @@ const ContactsList = ({ contacts }) => {
 
 export default ContactsList;
 // {
-//   id, name, number;
+/* <ul>
+      {contacts.map(({ id, name, number }) => {
+        return (
+          <li key={id}>
+            <div>
+              {name}:{number}
+              <button key={id}>Delet</button>
+            </div>
+          </li>
+        );
+      })}
+    </ul> */
+// }
+// {
+/* <li key={createId()}>{name}</li> */
+// }
+
+// {
+/* {
+  id, name, number;
+}  */
 // }
