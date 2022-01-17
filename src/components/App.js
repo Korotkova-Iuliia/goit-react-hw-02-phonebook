@@ -49,10 +49,10 @@ const FormError = ({ name }) => {
 class App extends Component {
   state = {
     contacts: [
-      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+      // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      // { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: "",
   };
@@ -60,10 +60,8 @@ class App extends Component {
   // model.id = nanoid();
 
   handleSubmit = (values, { resetForm }) => {
-    const { name, number, contacts } = values;
-
+    const { name, number } = values;
     // const createId = () => nanoid();
-    // const id = createId;
     console.log("submit", values);
     const contact = {
       name,
@@ -71,7 +69,7 @@ class App extends Component {
     };
     this.setState({ name, number });
 
-    // let contacts = [...values.contacts];
+    let contacts = [...values.contacts];
     // contacts.push({
     //   contacts: contact,
     // });
@@ -79,36 +77,7 @@ class App extends Component {
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { contact }],
     }));
-
     console.log(this.state);
-    //   [...contacts, contact];
-    // });
-    // this.setState((contacts) => {
-    //   [...contacts, contact];
-    // });
-    // /   (prevState) => ({
-    //     contacts: [...prevState, name],
-    //   }),
-    // const nameId = () => nanoid();
-    // const numberId = () => nanoid();
-
-    // this.setState((contacts) => ({
-    //   contacts: [...contacts, contacts],
-    // }));
-
-    // this.setState((prevState) => ({
-    //   contacts: prevState.contacts.map((contact) => {
-    //     if (contact.id === id) {
-    //       return { ...contact };
-    //     }
-    //   }),
-    //   id: createId(),
-    //   name,
-    //   number,
-    // }));
-
-    const nameState = values["name"];
-    console.log(nameState);
     console.log(values);
     console.log(contacts);
     console.log(name);
@@ -116,11 +85,14 @@ class App extends Component {
     // console.log(createId);
     // console.log(id);
     console.log(contact);
-    // this.setState({ [name]: values.name });
     resetForm();
   };
 
   render() {
+    const CustomInputComponent = (props) => (
+      <input className="my-custom-input" type="text" {...props} />
+    );
+
     return (
       <div>
         <GlobalStyle />
@@ -130,17 +102,12 @@ class App extends Component {
         <Formik
           initialValues={{ name: "", number: "" }}
           validationSchema={schema}
-          // onChange={this.handleChange}
-          // onSubmit={this.handleSubmit}
-          // onSubmit={(values, { setSubmitting }) => {
+          onSubmit={this.handleSubmit}
+          // onSubmit={(values) => {
           //   console.log(values);
-          //   onSubmit(values);
-          //   setSubmitting(false);
+          //   this.handleSubmit();
+          //   // onSubmit(values);
           // }}
-          onSubmit={(values) => {
-            console.log(values);
-            // onSubmit(values);
-          }}
         >
           {({ isSubmitting, push, name, props, values }) => (
             <Form autoComplete="off">
@@ -151,10 +118,12 @@ class App extends Component {
                 name="name"
                 placeholder="Input name"
                 value={values.name}
+                as={CustomInputComponent}
                 // onChange={(e) => {
                 //   console.log(e);
                 // }}
               />
+
               <FormError name="name" />
               <div>
                 <label htmlFor="number">Number</label>
