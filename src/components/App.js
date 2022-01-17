@@ -18,6 +18,7 @@ class App extends Component {
     number: "",
     filter: "",
   };
+
   handleSubmit = (values) => {
     const { name, number } = values;
     console.log(this.state);
@@ -36,10 +37,11 @@ class App extends Component {
     }));
   };
   render() {
-    const { contacts } = this.State;
+    const { contacts } = this.state;
+    console.log(this.state.contacts);
     console.log(contacts);
-    // // const valuesdf = this.handleSubmit();
-    // console.log(name);
+    // const valuesdf = this.handleSubmit();
+    // console.log(valuesdf);
     return (
       <div>
         <GlobalStyle />

@@ -1,6 +1,6 @@
 // import { nanoid } from 'nanoid';
 // import ContactItem from '../ContactItem/ContactItem';
-// const ContactsList = (contacts) => {
+// const ContactsList = ({contacts}) => {
 //   //   const createId = () => nanoid();
 //   //   const id = createId;
 //   return (
