@@ -19,8 +19,8 @@ const schema = yup.object().shape({
       /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/,
       `input phone number in format +380000000000`
     )
-    // .min(13, 'Too Short!')
-    // .max(13, 'Too Long!')
+    .min(5, "Too Short!")
+    .max(13, "Too Long!")
     .required(),
 });
 const ErrorText = styled.p`
@@ -35,7 +35,7 @@ const FormError = ({ name }) => {
   );
 };
 
-export default function MyForm({ onSubmit }) {
+const MyForm = ({ onSubmit }) => {
   const CustomInputComponent = (props) => (
     <input className="my-custom-input" type="text" {...props} />
   );
@@ -44,7 +44,6 @@ export default function MyForm({ onSubmit }) {
     <Formik
       initialValues={{ name: "", number: "" }}
       validationSchema={schema}
-      //   onSubmit={this.handleSubmit}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         // this.handleSubmit();
         console.log(values);
@@ -74,4 +73,5 @@ export default function MyForm({ onSubmit }) {
       )}
     </Formik>
   );
-}
+};
+export default MyForm;

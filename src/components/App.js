@@ -5,39 +5,21 @@ import { GlobalStyle } from "./GlobalStyle";
 import "./App.css";
 import MyForm from "./MyForm/MyForm";
 import ContactsList from "./ContatsList/ContatsList";
+import Filter from "./Filter/Filter";
 
 class App extends Component {
   state = {
     contacts: [
       { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
       { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
-    name: "",
-    number: "",
     filter: "",
   };
-  addContact = (values) => {
-    // const createId = () => nanoid();
-    // const { name, number } = values;
-    // this.setState(({ contacts }) => ({
-    //   contacts: [...contacts, { id: createId(), name, number }],
-    //   name,
-    //   number,
-    // }));
-  };
 
-  handleSubmit = (values) => {
+  addContact = (values) => {
     const { name, number } = values;
-    console.log(this.state);
-    console.log("submit", values);
-    // // console.log(contacts);
-    // // console.log(createId());
-    // console.log(this.state.contacts);
-    // console.log(this.state.contacts[0]);
-    console.log(name);
-    console.log(number);
     const createId = () => nanoid();
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { id: createId(), name, number }],
@@ -45,8 +27,27 @@ class App extends Component {
       number,
     }));
   };
+  deleteContact = (id) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => contact.id !== id),
+    }));
+  };
+  changeFilter = (e) => {
+    console.log(e);
+    console.log(e.currentTarget.value);
+    this.setState({ filter: e.currentTarget.value });
+  };
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
   render() {
-    const { contacts } = this.state;
+    const { contacts, filter } = this.state;
+    const visibleContacts = this.getVisibleContacts();
     console.log(this.state.contacts);
     console.log(contacts);
     console.log(this.state);
@@ -56,29 +57,16 @@ class App extends Component {
         <GlobalStyle />
         <div>ContactForm</div>
         <h1>Phonebook</h1>
-        {/* <MyForm onSubmit={() => this.handleSubmit(values)} /> */}
-        <MyForm onSubmit={this.handleSubmit} />
+        <MyForm onSubmit={this.addContact} />
         <h2>Contacts</h2>
-        <ContactsList contacts={contacts}></ContactsList>
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactsList
+          contacts={visibleContacts}
+          onDeleteContact={this.deleteContact}
+        ></ContactsList>
       </div>
     );
   }
 }
 
 export default App;
-// createContact = (values) => {
-//   const { name, number } = values;
-//   const contact = {
-//     name,
-//     number,
-//   };
-// };
-// console.log(this.state);
-// console.log('submit', values);
-// console.log(contacts);
-// console.log(createId());
-// console.log(this.state.contacts);
-// console.log(this.state.contacts[0]);
-// console.log(name);
-// console.log(number);
-// // resetForm();
