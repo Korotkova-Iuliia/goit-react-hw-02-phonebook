@@ -20,6 +20,14 @@ class App extends Component {
   };
   handleSubmit = (values) => {
     const { name, number } = values;
+    console.log(this.state);
+    console.log("submit", values);
+    // // console.log(contacts);
+    // // console.log(createId());
+    // console.log(this.state.contacts);
+    // console.log(this.state.contacts[0]);
+    // console.log(name);
+    // console.log(number);
     const createId = () => nanoid();
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { id: createId(), name, number }],
@@ -28,8 +36,8 @@ class App extends Component {
     }));
   };
   render() {
-    const { id } = this.State;
-    // console.log(name);
+    const { contacts } = this.State;
+    console.log(contacts);
     // // const valuesdf = this.handleSubmit();
     // console.log(name);
     return (

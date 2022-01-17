@@ -1,14 +1,6 @@
-import styled from "styled-components";
-import {
-  Formik,
-  Form,
-  Field,
-  ErrorMessage,
-  useField,
-  useFormikContext,
-} from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { nanoid } from "nanoid";
+import styled from "styled-components";
 
 const schema = yup.object().shape({
   name: yup
@@ -42,49 +34,44 @@ const FormError = ({ name }) => {
     />
   );
 };
-const MyForm = (onSubmit) => {
+
+export default function MyForm({ onSubmit }) {
+  const CustomInputComponent = (props) => (
+    <input className="my-custom-input" type="text" {...props} />
+  );
+
   return (
     <Formik
-      initialValues={{ contacts: [], name: "", number: "" }}
+      initialValues={{ name: "", number: "" }}
       validationSchema={schema}
-      // onChange={this.handleChange}
-      // onSubmit={this.handleSubmit}
-      onSubmit={(values, { setSubmitting }) => {
+      //   onSubmit={this.handleSubmit}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        // this.handleSubmit();
         console.log(values);
         onSubmit(values);
         setSubmitting(false);
+        resetForm();
       }}
     >
-      {({ isSubmitting, push, name, props, values }) => (
+      {() => (
         <Form autoComplete="off">
           <label htmlFor="name">Name</label>
           <Field
-            id="name"
             type="text"
             name="name"
             placeholder="Input name"
-            value={values.name}
-            // onChange={(e) => {
-            //   console.log(e);
-            // }}
+            as={CustomInputComponent}
           />
+
           <FormError name="name" />
           <div>
             <label htmlFor="number">Number</label>
-            <Field
-              id="number"
-              type="tel"
-              name="number"
-              placeholder="+380503589900"
-            />
+            <Field type="tel" name="number" placeholder="+380503589900" />
             <FormError name="number" />
           </div>
-          <button type="submit" disabled={isSubmitting}>
-            Add
-          </button>
+          <button type="submit">Add</button>
         </Form>
       )}
     </Formik>
   );
-};
-export default MyForm;
+}
