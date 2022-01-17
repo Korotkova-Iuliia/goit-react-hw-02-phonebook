@@ -4,7 +4,7 @@ import { GlobalStyle } from "./GlobalStyle";
 // import styled from 'styled-components';
 import "./App.css";
 import MyForm from "./MyForm/MyForm";
-// import ContactsList from './ContatsList/ContatsList';
+import ContactsList from "./ContatsList/ContatsList";
 
 class App extends Component {
   state = {
@@ -18,6 +18,16 @@ class App extends Component {
     number: "",
     filter: "",
   };
+  addContact = (values) => {
+    const createId = () => nanoid();
+    const { name, number } = values;
+
+    this.setState(({ contacts }) => ({
+      contacts: [...contacts, { id: createId(), name, number }],
+      name,
+      number,
+    }));
+  };
 
   handleSubmit = (values) => {
     const { name, number } = values;
@@ -27,8 +37,8 @@ class App extends Component {
     // // console.log(createId());
     // console.log(this.state.contacts);
     // console.log(this.state.contacts[0]);
-    // console.log(name);
-    // console.log(number);
+    console.log(name);
+    console.log(number);
     const createId = () => nanoid();
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { id: createId(), name, number }],
@@ -38,17 +48,19 @@ class App extends Component {
   };
   render() {
     const { contacts } = this.state;
-    console.log(this.state.contacts.id);
+    console.log(this.state.contacts);
     console.log(contacts);
+    console.log(this.state);
 
     return (
       <div>
         <GlobalStyle />
         <div>ContactForm</div>
         <h1>Phonebook</h1>
+        {/* <MyForm onSubmit={() => this.handleSubmit(values)} /> */}
         <MyForm onSubmit={this.handleSubmit} />
-        {/* <MyForm onSubmit={this.handleSubmit} /> */}
         <h2>Contacts</h2>
+        <ContactsList contacts={contacts}></ContactsList>
       </div>
     );
   }

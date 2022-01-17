@@ -1,4 +1,6 @@
+// import { nanoid } from 'nanoid';
 // const ContactItem = ({ id, name, number }) => {
-//   return <li>{name}</li>;
+//   const createId = () => nanoid();
+//   return <li key={createId()}>{name}</li>;
 // };
 // export default ContactItem;
