@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import styled from "styled-components";
-
+import { Button, FieldStyle } from "./MyForm.styled";
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -26,6 +26,7 @@ const schema = yup.object().shape({
 const ErrorText = styled.p`
   color: red;
 `;
+
 const FormError = ({ name }) => {
   return (
     <ErrorMessage
@@ -34,7 +35,6 @@ const FormError = ({ name }) => {
     />
   );
 };
-
 const MyForm = ({ onSubmit }) => {
   const CustomInputComponent = (props) => (
     <input className="my-custom-input" type="text" {...props} />
@@ -45,8 +45,6 @@ const MyForm = ({ onSubmit }) => {
       initialValues={{ name: "", number: "" }}
       validationSchema={schema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        // this.handleSubmit();
-        console.log(values);
         onSubmit(values);
         setSubmitting(false);
         resetForm();
@@ -56,19 +54,19 @@ const MyForm = ({ onSubmit }) => {
         <Form autoComplete="off">
           <label htmlFor="name">Name</label>
           <Field
+            className="main"
             type="text"
             name="name"
             placeholder="Input name"
             as={CustomInputComponent}
           />
-
           <FormError name="name" />
           <div>
             <label htmlFor="number">Number</label>
             <Field type="tel" name="number" placeholder="+380503589900" />
             <FormError name="number" />
           </div>
-          <button type="submit">Add</button>
+          <Button type="submit">Add</Button>
         </Form>
       )}
     </Formik>

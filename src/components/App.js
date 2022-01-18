@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import { GlobalStyle } from "./GlobalStyle";
 // import styled from 'styled-components';
-import "./App.css";
+import "./App.styled.jsx";
 import MyForm from "./MyForm/MyForm";
 import ContactsList from "./ContatsList/ContatsList";
 import Filter from "./Filter/Filter";
-
+import { Container, TitleMain } from "./App.styled";
+import Section from "./section/Section";
 class App extends Component {
   state = {
     contacts: [
@@ -17,7 +18,6 @@ class App extends Component {
     ],
     filter: "",
   };
-
   addContact = (values) => {
     const { name, number } = values;
     const createId = () => nanoid();
@@ -33,8 +33,6 @@ class App extends Component {
     }));
   };
   changeFilter = (e) => {
-    console.log(e);
-    console.log(e.currentTarget.value);
     this.setState({ filter: e.currentTarget.value });
   };
   getVisibleContacts = () => {
@@ -44,29 +42,38 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-
   render() {
-    const { contacts, filter } = this.state;
+    const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
-    console.log(this.state.contacts);
-    console.log(contacts);
-    console.log(this.state);
-    console.log(contacts.length);
     return (
-      <div>
+      <Container>
         <GlobalStyle />
-        <div>ContactForm</div>
-        <h1>Phonebook</h1>
-        <MyForm onSubmit={this.addContact} />
-        <h2>Contacts</h2>
-        <Filter value={filter} onChange={this.changeFilter} />
-        <ContactsList
-          contacts={visibleContacts}
-          onDeleteContact={this.deleteContact}
-        ></ContactsList>
-      </div>
+        <TitleMain>Phonebook</TitleMain>
+        {/* <TitleMainStyle title="Phonebook" /> */}
+        <Section>
+          <MyForm onSubmit={this.addContact} />
+        </Section>
+        <Section title="Contacts">
+          <Filter value={filter} onChange={this.changeFilter} />
+          <ContactsList
+            contacts={visibleContacts}
+            onDeleteContact={this.deleteContact}
+          ></ContactsList>
+        </Section>
+      </Container>
     );
   }
 }
-
 export default App;
+
+// <div>
+//   <GlobalStyle />
+//   <h1>Phonebook</h1>
+//   <MyForm onSubmit={this.addContact} />
+//   <h2>Contacts</h2>
+//   <Filter value={filter} onChange={this.changeFilter} />
+//   <ContactsList
+//     contacts={visibleContacts}
+//     onDeleteContact={this.deleteContact}
+//   ></ContactsList>
+// </div>;

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { ButtonDel } from "./ContactsList.styled";
 const ContactsList = ({ contacts, onDeleteContact }) => {
   return (
     <ul>
@@ -7,14 +8,14 @@ const ContactsList = ({ contacts, onDeleteContact }) => {
           <li key={id}>
             <div>
               {name}:{number}
-              <button
+              <ButtonDel
                 key={id}
                 onClick={() => {
                   onDeleteContact(id);
                 }}
               >
                 Delete
-              </button>
+              </ButtonDel>
             </div>
           </li>
         );
@@ -22,7 +23,6 @@ const ContactsList = ({ contacts, onDeleteContact }) => {
     </ul>
   );
 };
-
 export default ContactsList;
 ContactsList.propTypes = {
   contacts: PropTypes.arrayOf(
