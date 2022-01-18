@@ -20,7 +20,6 @@ export const Button = styled.button`
 export const FormContainer = styled.div`
   background-color: pink;
   padding: 1em 1em;
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
 `;

@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
-import { ContactsHolder, Text, ButtonDel } from "./ContactsList.styled";
+import {
+  ContactsHolder,
+  Text,
+  SpanText,
+  ButtonDel,
+} from "./ContactsList.styled";
 const ContactsList = ({ contacts, onDeleteContact }) => {
   return (
     <ul>
@@ -9,10 +14,9 @@ const ContactsList = ({ contacts, onDeleteContact }) => {
             <ContactsHolder>
               <Text>
                 {name}
-                <span>:</span>
+                <SpanText>:</SpanText>
                 {number}
               </Text>
-
               <ButtonDel
                 key={id}
                 onClick={() => {

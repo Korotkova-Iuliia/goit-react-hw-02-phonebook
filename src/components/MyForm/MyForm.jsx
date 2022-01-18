@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-
 import {
   FormContainer,
   Button,
@@ -29,7 +28,6 @@ const schema = yup.object().shape({
     .max(13, "Too Long!")
     .required(),
 });
-
 const FormError = ({ name }) => {
   return (
     <ErrorMessage
@@ -38,10 +36,8 @@ const FormError = ({ name }) => {
     />
   );
 };
-
 const MyForm = ({ onSubmit }) => {
   const CustomInputComponent = (props) => <Input type="text" {...props} />;
-
   return (
     <Formik
       initialValues={{ name: "", number: "" }}
@@ -59,14 +55,11 @@ const MyForm = ({ onSubmit }) => {
             <Label htmlFor="name">Name</Label>
             <FormError name="name" />
             <Field
-              // className="main"
-
               type="text"
               name="name"
               placeholder="Input new Name"
               as={CustomInputComponent}
             />
-
             <Label htmlFor="number">Number</Label>
             <FormError name="number" />
             <Field
@@ -75,7 +68,6 @@ const MyForm = ({ onSubmit }) => {
               placeholder="+380503589900"
               as={CustomInputComponent}
             />
-
             <Button type="submit">Add</Button>
           </FormContainer>
         </Form>

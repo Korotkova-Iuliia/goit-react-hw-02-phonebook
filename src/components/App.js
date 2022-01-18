@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import { GlobalStyle } from "./GlobalStyle";
-// import styled from 'styled-components';
 import "./App.styled.jsx";
 import MyForm from "./MyForm/MyForm";
 import ContactsList from "./ContatsList/ContatsList";
@@ -18,16 +17,9 @@ class App extends Component {
     ],
     filter: "",
   };
-  addContact = (values, reset) => {
-    const createId = () => nanoid();
+  addContact = (values) => {
     const { name, number } = values;
-    console.log(name);
-    console.log(number);
     const { contacts } = this.state;
-    console.log(contacts);
-    contacts.map((contact) => console.log(name === contact.name));
-    contacts.map((contact) => console.log(contact.name));
-
     contacts.find(
       (contact) =>
         name.toLowerCase() === contact.name.toLowerCase() ||
@@ -35,21 +27,21 @@ class App extends Component {
     )
       ? alert(`Contact ${name} or number ${number}is already in contacts`)
       : this.setState(({ contacts }) => ({
-          contacts: [...contacts, { id: createId(), name, number }],
+          contacts: [...contacts, { id: nanoid(), name, number }],
           name,
           number,
           filter: "",
         }));
   };
   deleteContact = (id) => {
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter((contact) => contact.id !== id),
+    this.setState(({ contacts }) => ({
+      contacts: contacts.filter((contact) => contact.id !== id),
     }));
   };
   changeFilter = (e) => {
     this.setState({ filter: e.currentTarget.value });
   };
-  reset = (e) => {
+  reset = () => {
     this.setState({ filter: "" });
   };
   getVisibleContacts = () => {
@@ -59,17 +51,6 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-  // sameNameContact = (name) => {
-  //   // const { name, number } = values;
-  //   console.log(name);
-  //   // console.log(number);
-  //   const { contacts } = this.state;
-  //   console.log(contacts);
-  //   const contactNames = Object.values(this.state.contacts);
-  //   console.log(contactNames);
-
-  //   // console.log(name === this.state.name);
-  // };
   render() {
     const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
@@ -77,7 +58,6 @@ class App extends Component {
       <Container>
         <GlobalStyle />
         <TitleMain>Phonebook</TitleMain>
-        {/* <TitleMainStyle title="Phonebook" /> */}
         <Section>
           <MyForm onSubmit={this.addContact} onChange={this.changeFilter} />
         </Section>
@@ -93,15 +73,3 @@ class App extends Component {
   }
 }
 export default App;
-
-// <div>
-//   <GlobalStyle />
-//   <h1>Phonebook</h1>
-//   <MyForm onSubmit={this.addContact} />
-//   <h2>Contacts</h2>
-//   <Filter value={filter} onChange={this.changeFilter} />
-//   <ContactsList
-//     contacts={visibleContacts}
-//     onDeleteContact={this.deleteContact}
-//   ></ContactsList>
-// </div>;

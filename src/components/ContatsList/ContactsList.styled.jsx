@@ -18,10 +18,14 @@ export const ButtonDel = styled.button`
   }
 `;
 export const Text = styled.p`
+  display: flex;
+  flex-wrap: wrap;
   font-size: 1.2em;
 `;
 export const SpanText = styled.span`
   color: palevioletred;
+  padding-right: 0.8em;
+  padding-left: 0.2em;
 `;
 export const ContactsHolder = styled.div`
   display: flex;
