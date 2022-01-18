@@ -19,6 +19,7 @@ class App extends Component {
     filter: "",
   };
   addContact = (values, reset) => {
+    const createId = () => nanoid();
     const { name, number } = values;
     console.log(name);
     console.log(number);
@@ -27,16 +28,20 @@ class App extends Component {
     contacts.map((contact) => console.log(name === contact.name));
     contacts.map((contact) => console.log(contact.name));
 
-    // console.log(name === this.state.name);
-    // const { name, number } = values;
-    const createId = () => nanoid();
-    this.setState(({ contacts }) => ({
-      contacts: [...contacts, { id: createId(), name, number }],
-      name,
-      number,
-      // filter: '',
-    }));
+    contacts.find(
+      (contact) =>
+        name.toLowerCase() === contact.name.toLowerCase() ||
+        number === contact.number
+    )
+      ? alert(`Contact ${name} or number ${number}is already in contacts`)
+      : this.setState(({ contacts }) => ({
+          contacts: [...contacts, { id: createId(), name, number }],
+          name,
+          number,
+          filter: "",
+        }));
   };
+
   //    contacts: contacts.map(contact => {
   //       if (contact.name && contact.number === name || number) {
   //         return (
