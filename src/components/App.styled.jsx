@@ -4,7 +4,6 @@ export const Container = styled.div`
   margin-right: auto;
   padding: 50px;
 `;
-
 export const TitleMain = styled.h1`
   margin: 0;
   font-size: 45px;

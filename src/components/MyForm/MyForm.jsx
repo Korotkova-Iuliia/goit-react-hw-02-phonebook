@@ -1,7 +1,13 @@
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import styled from "styled-components";
-import { Button, Form, Input, Label } from "./MyForm.styled";
+
+import {
+  FormContainer,
+  Button,
+  ErrorText,
+  Input,
+  Label,
+} from "./MyForm.styled";
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -23,9 +29,6 @@ const schema = yup.object().shape({
     .max(13, "Too Long!")
     .required(),
 });
-const ErrorText = styled.p`
-  color: red;
-`;
 
 const FormError = ({ name }) => {
   return (
@@ -35,6 +38,7 @@ const FormError = ({ name }) => {
     />
   );
 };
+
 const MyForm = ({ onSubmit }) => {
   const CustomInputComponent = (props) => <Input type="text" {...props} />;
 
@@ -42,6 +46,7 @@ const MyForm = ({ onSubmit }) => {
     <Formik
       initialValues={{ name: "", number: "" }}
       validationSchema={schema}
+      validateOnMount
       onSubmit={(values, { setSubmitting, resetForm }) => {
         onSubmit(values);
         setSubmitting(false);
@@ -50,26 +55,29 @@ const MyForm = ({ onSubmit }) => {
     >
       {() => (
         <Form autoComplete="off">
-          <Label htmlFor="name">Name</Label>
-          <Field
-            // className="main"
-            type="text"
-            name="name"
-            placeholder="Input new Name"
-            as={CustomInputComponent}
-          />
-          <FormError name="name" />
-          <div>
+          <FormContainer>
+            <Label htmlFor="name">Name</Label>
+            <FormError name="name" />
+            <Field
+              // className="main"
+
+              type="text"
+              name="name"
+              placeholder="Input new Name"
+              as={CustomInputComponent}
+            />
+
             <Label htmlFor="number">Number</Label>
+            <FormError name="number" />
             <Field
               type="tel"
               name="number"
               placeholder="+380503589900"
               as={CustomInputComponent}
             />
-            <FormError name="number" />
-          </div>
-          <Button type="submit">Add</Button>
+
+            <Button type="submit">Add</Button>
+          </FormContainer>
         </Form>
       )}
     </Formik>

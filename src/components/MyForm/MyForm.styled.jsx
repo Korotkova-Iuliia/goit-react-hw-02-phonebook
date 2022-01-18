@@ -1,4 +1,7 @@
 import styled from "styled-components";
+export const ErrorText = styled.p`
+  color: darkred;
+`;
 export const Button = styled.button`
   background-color: gray;
   color: white;
@@ -9,42 +12,35 @@ export const Button = styled.button`
   border-radius: 3px;
   &:hover {
     cursor: pointer;
-    /* transform: scale(1.05); */
     color: white;
     border: 3px solid gray;
     background-color: palevioletred;
   }
 `;
-export const Form = styled.form`
+export const FormContainer = styled.div`
   background-color: pink;
-  width: 25em;
   padding: 1em 1em;
   /* display: flex; */
   flex-direction: column;
   align-items: center;
 `;
-
-// export const Input = styled.input`
-//   width: 300px;
-//   height: 35px;
-//   border: 1px solid #ccc;
-//   background-color: #fff;
-// `;
 export const Input = styled.input.attrs((props) => ({
   type: "text",
   size: props.size || "0.8em",
 }))`
   color: palevioletred;
-  /* background-color: lightpink; */
   font-size: 1em;
   border: 2px solid #ccc;
   border-radius: 3px;
-
   margin: ${(props) => props.size};
   padding: ${(props) => props.size};
+  ::placeholder {
+    color: #ccc;
+    font-size: 1em;
+  }
 `;
 export const Label = styled.label`
+  display: flex;
   font-family: "Raleway", sans-serif;
   color: ${(props) => props.color || "palevioletred"};
 `;
-// '#4d4d4d';

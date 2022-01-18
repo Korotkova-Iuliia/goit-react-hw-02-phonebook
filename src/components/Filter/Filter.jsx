@@ -4,7 +4,7 @@ import { Input, Label } from "./Filter.styled";
 const Filter = ({ filter, onChange }) => {
   return (
     <Label>
-      Surch Name
+      {/* Surch Name */}
       <Input
         type="text"
         value={filter}
