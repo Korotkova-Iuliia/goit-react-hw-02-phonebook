@@ -41,19 +41,6 @@ class App extends Component {
           filter: "",
         }));
   };
-
-  //    contacts: contacts.map(contact => {
-  //       if (contact.name && contact.number === name || number) {
-  //         return (
-  //           [...contacts, { id: createId(), name, number }],
-  //           name,
-  //           number,
-  //     // filter: '',
-  //         );
-  //       };
-  //       // this.changeFilter();
-  //     })
-  // })
   deleteContact = (id) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter((contact) => contact.id !== id),

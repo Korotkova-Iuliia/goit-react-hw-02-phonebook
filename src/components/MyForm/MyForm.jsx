@@ -1,7 +1,7 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import styled from "styled-components";
-import { Button, FieldStyle } from "./MyForm.styled";
+import { Button, Form, Input, Label } from "./MyForm.styled";
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -36,9 +36,7 @@ const FormError = ({ name }) => {
   );
 };
 const MyForm = ({ onSubmit }) => {
-  const CustomInputComponent = (props) => (
-    <input className="my-custom-input" type="text" {...props} />
-  );
+  const CustomInputComponent = (props) => <Input type="text" {...props} />;
 
   return (
     <Formik
@@ -52,18 +50,23 @@ const MyForm = ({ onSubmit }) => {
     >
       {() => (
         <Form autoComplete="off">
-          <label htmlFor="name">Name</label>
+          <Label htmlFor="name">Name</Label>
           <Field
             // className="main"
             type="text"
             name="name"
-            placeholder="Input name"
+            placeholder="Input new Name"
             as={CustomInputComponent}
           />
           <FormError name="name" />
           <div>
-            <label htmlFor="number">Number</label>
-            <Field type="tel" name="number" placeholder="+380503589900" />
+            <Label htmlFor="number">Number</Label>
+            <Field
+              type="tel"
+              name="number"
+              placeholder="+380503589900"
+              as={CustomInputComponent}
+            />
             <FormError name="number" />
           </div>
           <Button type="submit">Add</Button>
