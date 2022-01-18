@@ -17,7 +17,7 @@ const schema = yup.object().shape({
     .string()
     .matches(
       /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/,
-      `input phone number in format +380000000000`
+      `Phone number must be digits and can contain spaces, dashes, parentheses and can start with +`
     )
     .min(5, "Too Short!")
     .max(13, "Too Long!")
@@ -54,7 +54,7 @@ const MyForm = ({ onSubmit }) => {
         <Form autoComplete="off">
           <label htmlFor="name">Name</label>
           <Field
-            className="main"
+            // className="main"
             type="text"
             name="name"
             placeholder="Input name"

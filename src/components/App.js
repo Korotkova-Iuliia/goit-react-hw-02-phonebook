@@ -18,15 +18,37 @@ class App extends Component {
     ],
     filter: "",
   };
-  addContact = (values) => {
+  addContact = (values, reset) => {
     const { name, number } = values;
+    console.log(name);
+    console.log(number);
+    const { contacts } = this.state;
+    console.log(contacts);
+    contacts.map((contact) => console.log(name === contact.name));
+    contacts.map((contact) => console.log(contact.name));
+
+    // console.log(name === this.state.name);
+    // const { name, number } = values;
     const createId = () => nanoid();
     this.setState(({ contacts }) => ({
       contacts: [...contacts, { id: createId(), name, number }],
       name,
       number,
+      // filter: '',
     }));
   };
+  //    contacts: contacts.map(contact => {
+  //       if (contact.name && contact.number === name || number) {
+  //         return (
+  //           [...contacts, { id: createId(), name, number }],
+  //           name,
+  //           number,
+  //     // filter: '',
+  //         );
+  //       };
+  //       // this.changeFilter();
+  //     })
+  // })
   deleteContact = (id) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter((contact) => contact.id !== id),
@@ -35,6 +57,9 @@ class App extends Component {
   changeFilter = (e) => {
     this.setState({ filter: e.currentTarget.value });
   };
+  reset = (e) => {
+    this.setState({ filter: "" });
+  };
   getVisibleContacts = () => {
     const { filter, contacts } = this.state;
     const normalizedFilter = filter.toLowerCase();
@@ -42,6 +67,17 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+  // sameNameContact = (name) => {
+  //   // const { name, number } = values;
+  //   console.log(name);
+  //   // console.log(number);
+  //   const { contacts } = this.state;
+  //   console.log(contacts);
+  //   const contactNames = Object.values(this.state.contacts);
+  //   console.log(contactNames);
+
+  //   // console.log(name === this.state.name);
+  // };
   render() {
     const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
@@ -51,7 +87,7 @@ class App extends Component {
         <TitleMain>Phonebook</TitleMain>
         {/* <TitleMainStyle title="Phonebook" /> */}
         <Section>
-          <MyForm onSubmit={this.addContact} />
+          <MyForm onSubmit={this.addContact} onChange={this.changeFilter} />
         </Section>
         <Section title="Contacts">
           <Filter value={filter} onChange={this.changeFilter} />

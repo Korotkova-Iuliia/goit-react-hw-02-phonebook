@@ -12,5 +12,6 @@ export const ButtonDel = styled.button`
     transform: scale(1.05);
     color: white;
     border: 2px solid white;
-    background-color: gray
+    background-color: gray;
+  }
 `;
